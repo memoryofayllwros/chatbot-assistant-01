@@ -1,13 +1,14 @@
+#pip install pytesseract pymupdf pdfplumber pdf2image langchain langchain-openai langchain-community python-dotenv opencv-python-headless faiss-cpu
+#pip install spacy
+#python -m spacy download en_core_web_sm
+
 import os
 import streamlit as st
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 os.environ["OPENAI_API_MODEL"] = "gpt-4o-mini"
-os.environ['KMP_DUPLICATE_LIB_OK']='True'
 os.environ["OPENAI_EMBEDDING_MODEL"] = "text-embedding-3-small"
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
-#pip install pytesseract pymupdf pdfplumber pdf2image langchain langchain-openai langchain-community python-dotenv opencv-python-headless faiss-cpu
-#pip install spacy
-#python -m spacy download en_core_web_sm
 import tempfile
 import pytesseract
 import fitz
@@ -15,7 +16,7 @@ import pdfplumber
 from PIL import Image
 from pdf2image import convert_from_path
 import numpy as np
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings, OpenAI
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -28,9 +29,9 @@ from langchain.agents.output_parsers.openai_tools import OpenAIToolsAgentOutputP
 from langchain.agents import AgentExecutor
 from langchain_core.pydantic_v1 import BaseModel, Field
 import spacy
-from dotenv import load_dotenv
 import concurrent.futures
 
+from dotenv import load_dotenv
 load_dotenv()
 
 llm = ChatOpenAI()
@@ -178,7 +179,6 @@ class EntityExtractionTool(BaseTool):
     name = "entity_extractor"
     description = "Extracts named entities (like names, dates, organizations, etc.) from text using spaCy."
     
-    # Implement the _run method that LangChain expects
     def _run(self, text: str):
         """Extract named entities from text using spaCy."""
         doc = nlp(text)
@@ -188,14 +188,13 @@ class EntityExtractionTool(BaseTool):
     async def _arun(self, text: str):
         raise NotImplementedError("Async execution is not supported for this tool.")
 
-# Instantiate the tool
 entity_tool = EntityExtractionTool()
 
-# Add the tool to the list of tools
 tools = [retriever_tool, entity_tool]
 
-#------create prompt------
+#------create q&a prompt------
 import reasoning_prompts
+
 system_prompt = reasoning_prompts.system_prompt
 qa_prompt = ChatPromptTemplate.from_messages([("system", system_prompt),
                                               MessagesPlaceholder(variable_name="chat_history"),
