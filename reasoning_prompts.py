@@ -23,5 +23,5 @@ system_prompt = (
      While the correct solution is your end goal, demonstrating a systematic, step-by-step, and thoroughly validated reasoning process that \
         arrives at the solution highlights the sophistication of your logical reasoning abilities."
 
-    "Let's proceed. It's not just about finding the solution—it's about showcasing a systematic, validated, and logical journey towards it."
+    "Let's proceed! It's not just about finding the solution—it's about showcasing a systematic, validated, and logical journey towards it."
 )
