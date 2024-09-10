@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
-os.environ["OPENAI_API_MODEL"] = "gpt-3.5-turbo-0125"
+os.environ["OPENAI_API_MODEL"] = "gpt-4o-mini"
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 os.environ["OPENAI_EMBEDDING_MODEL"] = "text-embedding-3-small"
 
@@ -34,8 +34,8 @@ import concurrent.futures
 load_dotenv()
 
 llm = ChatOpenAI()
-# Load spaCy model once to avoid repeated loading
 
+# Load spaCy model once to avoid repeated loading
 nlp = spacy.load('en_core_web_sm')
 
 base_dir = "Richford_files"
@@ -193,7 +193,6 @@ entity_tool = EntityExtractionTool()
 
 # Add the tool to the list of tools
 tools = [retriever_tool, entity_tool]
-
 
 #------create prompt------
 import reasoning_prompts
