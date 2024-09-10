@@ -185,7 +185,6 @@ class EntityExtractionTool(BaseTool):
         entities = [(ent.text, ent.label_) for ent in doc.ents]
         return json.dumps(entities)  # Ensure the output is JSON serializable
 
-    # For async support, you can also implement _arun (optional)
     async def _arun(self, text: str):
         raise NotImplementedError("Async execution is not supported for this tool.")
 
