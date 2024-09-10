@@ -38,7 +38,7 @@ llm = ChatOpenAI()
 # Load spaCy model once to avoid repeated loading
 nlp = spacy.load('en_core_web_sm')
 
-base_dir = "Richford_files/Richford Presentation 2024.pdf"
+base_dir = "Richford_files"
 
 def preprocess_image(image):
     """Preprocess the image for better OCR results"""
