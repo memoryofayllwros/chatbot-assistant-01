@@ -20,19 +20,14 @@ from langchain.agents.format_scratchpad.openai_tools import format_to_openai_too
 from langchain.agents.output_parsers.openai_tools import OpenAIToolsAgentOutputParser
 from langchain.agents import AgentExecutor
 from langchain_core.pydantic_v1 import BaseModel, Field
-import spacy
 import concurrent.futures
 import data_preprocess, reasoning_prompts
-
 
 from dotenv import load_dotenv
 load_dotenv()
 
-llm = ChatOpenAI()
-
-# Load spaCy model once to avoid repeated loading
+import spacy
 nlp = spacy.load('en_core_web_sm')
-
 
 base_dir = "Richford_files"
 
@@ -55,7 +50,6 @@ def process_files(base_dir):
             final_text += future.result()
     return final_text
 
-
 def get_text_chunks(final_text):
     """Split extracted text into manageable chunks for processing"""
     text_splitter = RecursiveCharacterTextSplitter(
@@ -65,6 +59,7 @@ def get_text_chunks(final_text):
     )
     chunks = text_splitter.split_text(final_text)
     return chunks
+
 
 @st.cache_resource
 
@@ -81,12 +76,14 @@ retriever = vectorstore.as_retriever()
 
 
 #------create tools------
+
+#Create retriever tool
 retriever_tool = create_retriever_tool(retriever, 
                                        "texts_retriever",
                                        "Searches queries and returns relevant excerpts based on user questions")
 
 
-# Create a tool class by extending BaseTool and implementing the _run method
+# Create entity tool, class by extending BaseTool and implementing the _run method
 from langchain.tools import BaseTool
 import json
 
@@ -105,11 +102,11 @@ class EntityExtractionTool(BaseTool):
 
 entity_tool = EntityExtractionTool()
 
-
 tools = [retriever_tool, entity_tool]
 
-#------create q&a prompt------
 
+#------create q&a prompt------
+llm = ChatOpenAI()
 system_prompt = reasoning_prompts.system_prompt
 qa_prompt = ChatPromptTemplate.from_messages([("system", system_prompt),
                                               MessagesPlaceholder(variable_name="chat_history"),
