@@ -155,7 +155,7 @@ def Loading(agent_input):
 #------streamlit UI------
 def main():
     st.title("💬 Product Help Desk")
-    st.caption("A chatbot powered by OpenAI.")
+    st.caption("A Product Expert Assistant Powered by OpenAI.")
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
@@ -174,7 +174,7 @@ def main():
             <div style="padding: 1.5rem; 
                         border-radius: 0.5rem; 
                         margin-bottom: 1rem; 
-                        background-color: #dcdcdc;
+                        background-color: #e3e3e3;
                         color: #000000;">
                 <strong>You:</strong> {user_msg}
             </div>
