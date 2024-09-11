@@ -83,7 +83,7 @@ retriever_tool = create_retriever_tool(retriever,
                                        "Searches queries and returns relevant excerpts based on user questions")
 
 
-# Create entity tool, class by extending BaseTool and implementing the _run method
+#Create entity tool, class by extending BaseTool and implementing the _run method
 from langchain.tools import BaseTool
 import json
 
