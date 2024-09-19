@@ -22,6 +22,8 @@ from langchain.agents import AgentExecutor
 from langchain_core.pydantic_v1 import BaseModel, Field
 import concurrent.futures
 import data_preprocess, reasoning_prompts
+from langchain.tools import BaseTool
+import json
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -76,7 +78,6 @@ retriever = vectorstore.as_retriever()
 
 
 #------create tools------
-
 #Create retriever tool
 retriever_tool = create_retriever_tool(retriever, 
                                        "texts_retriever",
@@ -84,8 +85,6 @@ retriever_tool = create_retriever_tool(retriever,
 
 
 #Create entity tool, class by extending BaseTool and implementing the _run method
-from langchain.tools import BaseTool
-import json
 
 class EntityExtractionTool(BaseTool):
     name = "entity_extractor"
